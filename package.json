@@ -1,19 +1,25 @@
 {
-  "name": "wpchunks",
+  "name": "@aledebarba/wpchunks",
   "version": "0.0.1",
   "description": "WPChunks is a Wordpress Plugin to include PHP, JS or ReactJs components in your Wordpress theme and content.",
-  "homepage": "https://github.com/aledebarba/wpchunks-plugin",
+  "main": "wpchunks.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aledebarba/wpchunks-plugin"
+    "url": "git+https://github.com/aledebarba/wpchunks-plugin.git"
   },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "wpchunks",
+    "components"
+  ],
+  "author": "Alexandre CMC Souza",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/aledebarba/wpchunks-plugin/issues"
   },
-  "author": "Alexandre CMC Souza",
-  "keywords": ["wordpress", "plugin", "php", "js", "reactjs", "wpchunk", "wpchunk"],
-  "license": "MIT",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  "homepage": "https://github.com/aledebarba/wpchunks-plugin#readme"
 }
