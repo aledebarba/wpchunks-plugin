@@ -26,5 +26,5 @@ require_once __DIR__ . '/functions/sass-compiler.php';
 // create module with default values
 $defaultFolder = "components";
 $filePrefix = "";
-$components_core_options = new Components_Core_Options( $defaultFolder, $filePrefix);
+$components_core_options = new Components_Core_Options( $defaultFolder, $filePrefix );
 ?>

@@ -61,6 +61,12 @@ class Components_Core_Options {
         }
         return "key='${$this->reactKeys[$name]}'";
     }
+    public function getPackageJson($name) {
+        return get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json";
+    }
+    public function componentExist($name) {
+        return file_exists(get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json");
+    }
 }
 
 function component_core_setup($root, $styleName, $prefix) {

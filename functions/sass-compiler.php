@@ -14,7 +14,34 @@
  */
 
 use ScssPhp\ScssPhp\Compiler;
+
 $css__control__rule_insertion = [];
+
+function sassFile($fileName, $id = "", $filePath) {
+
+    //compile file from external sass file
+    $compiler = new Compiler();
+    $compiler->setImportPaths($filePath);
+    $fileName = "@import '$fileName'; ";
+    $css = $compiler->compileString($fileName)->getCss();
+    
+    // control if many sass was already used or compiled by other components
+    $id = $id == "" ? "css-control-".uniqid() : $id;
+    if(isset($css__control__rule_insertion)) {
+        if (isset($css__control__rule_insertion[$id])) {
+            return;
+        }
+    } else {
+        $id = $id || $id!=="" ? $id : "css__control__uid_".uniqid(); 
+        $css__control__rule_insertion[$id] = $id;
+    }
+
+    // transmit compiled css to the page
+    add_action('wp_head', function() use ($css, $id) {
+        echo "<style type='text/css' media='screen' generator='php_sass_compiler' id='$id'>$css</style>";
+    }, 1);
+    do_action('wp_head');
+}
 
 function sass($sasscode, $id = "") {
     $id = $id == "" ? "css-contrel-".uniqid() : $id;
