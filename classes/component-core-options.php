@@ -11,6 +11,7 @@ class Components_Core_Options {
 
     private $currentComponentName;
     private $currentComponentPath;
+    private $cssControl = array();
     private $root;
     private $styleName;
     private $prefix;
@@ -59,13 +60,25 @@ class Components_Core_Options {
         } else {
             $this->reactKeys[$name]++;
         }
-        return "key='${$this->reactKeys[$name]}'";
+        return "key='".$this->reactKeys[$name]."'";
     }
     public function getPackageJson($name) {
         return get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json";
     }
     public function componentExist($name) {
         return file_exists(get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json");
+    }
+    public function issetStyle($name) {
+            return isset($this->cssControl[$name]);
+    }
+    public function setStyle($name, $path) {
+        $this->cssControl[$name] = $path;
+    }
+    public function getStyle($name) {
+        return $this->cssControl[$name];
+    }
+    public function getCssControl() {
+        return $this->cssControl;
     }
 }
 function component_core_setup($root, $styleName, $prefix) {

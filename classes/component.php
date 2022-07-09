@@ -92,9 +92,10 @@ class Component {
         $infooter = true;
         
         if ( file_exists($componentPath) ) {
-            echo <<<HTML
-                <div class="wpchunk-$name" data-wpchunk="$name" wpchunk-$name="true" ${$chunk->getReactKey($name)}></div>
+            $output = <<<HTML
+                <div class="wpchunk-$name" data-wpchunk="$name" wpchunk-$name="true" {$chunk->getReactKey($name)}></div>
             HTML;
+            echo $output;
             
             if ( false == wp_script_is( $handle, 'enqueued' ) ) {
                 add_action("wp_enqueue_scripts", function() use ($handle, $url, $deps, $ver, $infooter, $styleHandle, $styleUrl, $stylePath, $handle_global_vars, $params) {
