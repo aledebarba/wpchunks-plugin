@@ -21,9 +21,9 @@ WPChunks use a **CLI** tool to create plugins templates and insert the generated
 
 Insert components via code:
 
-    chunk('<component-name>');   // Insert a PHP Component
-    chunk('<component-name>'); // Insert a JS Component
-    chunk('<component-name>'); // Insert a ReactJs Component
+    chunk('<component-name>'[ , <arguments> ]);   
+
+    where <arguments> are values, in the same way we pass arguments to functions. 
 
 Insert components via shortcode:
 
@@ -37,7 +37,29 @@ Create components
 
 2. **Use cli tool** from your folder theme (or subfolder inside it like "components") to create the components code:
 
-    To be implemented
+    wpchunk <component-name> [<component-type>]
+
+Create a folder with the component name and create the component code inside it. 
+If you don't specify the component type, the default component is a PHP components.
+
+    <component-type>
+
+    one of the options:
+
+    php - creates a php component
+    javascript - creates a vanilla javascript component
+    js - short for javascript
+    react - creates a react component
+    vue - create a vue component
+    react-collection - creates a collection of separated callable react components inside the same folder
+
+
+    ex: 
+    wpchunk hello-world react
+
+    creates an react component named hello-world
+    
+
 
 #### The ReactJS component thing
 
