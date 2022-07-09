@@ -21,9 +21,9 @@ WPChunks use a **CLI** tool to create plugins templates and insert the generated
 
 Insert components via code:
 
-    Component::P('<component-name>');   // Insert a PHP Component
-    Component::J('<component-name>'); // Insert a JS Component
-    Component::D('<component-name>'); // Insert a ReactJs Component
+    chunk('<component-name>');   // Insert a PHP Component
+    chunk('<component-name>'); // Insert a JS Component
+    chunk('<component-name>'); // Insert a ReactJs Component
 
 Insert components via shortcode:
 
