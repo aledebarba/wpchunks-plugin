@@ -68,12 +68,17 @@ class Components_Core_Options {
         return file_exists(get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json");
     }
 }
-
 function component_core_setup($root, $styleName, $prefix) {
     global $components_core_options;
     $components_core_options->setRoot($root);
     $components_core_options->setStyleName($styleName);
     $components_core_options->setPrefix($prefix);
  }
+function chunks_location($root, $styleName, $prefix) {
+    component_core_setup($root, $styleName, $prefix);
+}
+function wpchunks_location($root, $styleName, $prefix) {
+    component_core_setup($root, $styleName, $prefix);
+}
 
  ?>
