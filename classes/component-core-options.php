@@ -11,6 +11,7 @@ class Components_Core_Options {
 
     private $currentComponentName;
     private $currentComponentPath;
+    private $components = [];
     private $cssControl = array();
     private $root;
     private $styleName;
@@ -24,8 +25,18 @@ class Components_Core_Options {
         $this->prefix = $prefix;
         $this->styleName = "style.php";
     }
+
+    public function setComponent($name, $path) { $this->components[$name] = $path; } 
+    public function getComponent($name) {
+        if ( isset( $this->components[$name] ) ) {
+            return $this->components[$name];
+        } else {
+            return false;
+        }
+    }
     public function setRoot($root) { $this->root = $root; }
     public function setStyleName($styleName) { $this->styleName = $styleName; }
+
     public function getRoot() { return $this->root; }
     public function getStyleName() { return $this->styleName; }
     public function getCurrentComponentPath() { return $this->currentComponentPath; }
@@ -68,7 +79,7 @@ class Components_Core_Options {
     public function componentExist($name) {
         return file_exists(get_stylesheet_directory()."/".$this->getRoot()."/".$this->prefix.$name."/package.json");
     }
-    public function issetStyle($name) {
+    public function isStyled($name) {
             return isset($this->cssControl[$name]);
     }
     public function setStyle($name, $path) {

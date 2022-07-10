@@ -17,11 +17,18 @@ class Component {
  
     // PHP components -------------------------------------------------------
     public static function php($name, ...$params) {
-        global $components_core_options;        
+        global $components_core_options; 
         $componentName = $name."/src/index.php";
         $componentRoot = get_stylesheet_directory()."/".$components_core_options->getRoot()."/".$name."/src/";  
         $componentPath = $componentRoot."index.php";
         $componentStyles = $componentRoot."index.scss";   
+        
+        if ( isset( $components_core_options->components[$name] ) ) {
+            include( $componentPath );
+            return true;
+        } else {
+            $components_core_options->setComponent($name, $componentPath);
+        }
 
         if( file_exists($componentStyles) ) { 
             sassFile("index.scss", $name, $componentRoot); 
@@ -29,7 +36,7 @@ class Component {
         if ( file_exists($componentPath) ) {
             $components_core_options->setCurrentComponentName($name);
             $components_core_options->setCurrentComponentPath();
-            include_once ( $componentPath );
+            include ( $componentPath );
         } else { // show error
             Component::error("Could not find PHP component: $name");
         }

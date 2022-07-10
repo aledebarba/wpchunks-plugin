@@ -17,24 +17,27 @@ use ScssPhp\ScssPhp\Compiler;
 
 function sassFile($fileName, $id = "", $filePath = "") {
     global $components_core_options;
+
     $id = $id == "" ? "css-control-".uniqid() : $id;
-    if( $components_core_options->issetStyle($id) ) {
+    if( $components_core_options->isStyled($id) ) {
         return;
     }
-    //add this styles to control
-    $components_core_options->setStyle($id, $filePath);
-
-    //compile file from external sass file
+     //compile file from external sass file
     $compiler = new Compiler();
     $compiler->setImportPaths($filePath);
     $fileName = "@import '$fileName'; ";
     $css = $compiler->compileString($fileName)->getCss();
- 
+    
+    //add this styles to control
+    $components_core_options->setStyle($id, $css);
+
     // transmit compiled css to the page
     add_action('wp_head', function() use ($css, $id) {
-        echo "<style type='text/css' media='screen' generator='php_sass_compiler' id='$id'>$css</style>";
-    }, 1);
+            echo "<style type='text/css' media='screen' generator='sass_compiler' id='$id'>$css</style>";
+        return true;
+    }, PHP_INT_MAX);
     do_action('wp_head');
+    return;
 }
 
 function sass($sasscode, $id = "") {
