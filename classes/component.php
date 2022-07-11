@@ -49,13 +49,12 @@ class Component {
     // Javascript components -------------------------------------------------
     public static function JS($name, $deps = [], $infooter = true) {
         global $components_core_options;
-        $chunk = $components_core_options;
 
-        $path = $chunk->getSrcPath($name, "index.js");
-        $url  = $chunk->getSrcUrl($name, "index.js");
+        $path = $components_core_options->getSrcPath($name, "index.js");
+        $url  = $components_core_options->getSrcUrl($name, "index.js");
         
         $handle = "wpchunck-".$name;
-        $stylePath = $chunk->getSrcPath($name, "style.php");
+        $stylePath = $components_core_options->getSrcPath($name, "style.php");
         $ver = uniqid();
         
         if ( file_exists($path) ) {
@@ -83,16 +82,15 @@ class Component {
     // React components -------------------------------------------------------
     public static function react($name, ...$params) {
         global $components_core_options;
-        $chunk = $components_core_options;
-        
-        $path = $chunk->getBuildPath($name, "index.js");
-        $url  = $chunk->getBuildUrl($name, "index.js");
+
+        $path = $components_core_options->getBuildPath($name, "index.js");
+        $url  = $components_core_options->getBuildUrl($name, "index.js");
 
         $handle = "wpchunk-".$name; // ex. wpchunk-hello-world
         $handle_global_vars = str_replace("-", "_", $handle); // ex: wpchunk_hello_world 
         $componentPath = $path;
-        $stylePath = $chunk->getBuildPath($name, "index.css");
-        $styleUrl  = $chunk->getBuildUrl($name, "index.css");
+        $stylePath = $components_core_options->getBuildPath($name, "index.css");
+        $styleUrl  = $components_core_options->getBuildUrl($name, "index.css");
         $styleHandle = "wpchunk-$name-styles";
         $ver = uniqid();
         $deps = ['wp-element', 'wp-editor'];
@@ -100,11 +98,12 @@ class Component {
         
         if ( file_exists($componentPath) ) {
             $output = <<<HTML
-                <div class="wpchunk-$name" data-wpchunk="$name" wpchunk-$name="true" {$chunk->getReactKey($name)}></div>
+                <div class="wpchunk-$name" data-wpchunk="$name" wpchunk-$name="true" {$components_core_options->getReactKey($name)}></div>
             HTML;
             echo $output;
             
             if ( false == wp_script_is( $handle, 'enqueued' ) ) {
+                $components_core_options->setComponent($name, $componentPath);                
                 add_action("wp_enqueue_scripts", function() use ($handle, $url, $deps, $ver, $infooter, $styleHandle, $styleUrl, $stylePath, $handle_global_vars, $params) {
                     wp_register_script( $handle, $url, $deps, $ver, $infooter );
                     wp_enqueue_script( $handle );
@@ -117,7 +116,7 @@ class Component {
                         wp_register_style( $styleHandle, $styleUrl, [], $ver, "screen" );
                         wp_enqueue_style( $styleHandle );
                     }
-                }, 100);                
+                }, 1);                
                 do_action("wp_enqueue_scripts");
             }
         } else {
@@ -158,9 +157,8 @@ class Component {
 
 function chunk($name, ...$params) {
     global $components_core_options;  
-    $options = $components_core_options;
-
-    if ( ! $options->componentExist($name) ) {
+    
+    if ( !$components_core_options->componentExist($name) ) {
         
         Component::error(<<<HTML
             Component
@@ -170,11 +168,12 @@ function chunk($name, ...$params) {
                 $name
             </span>not found. Please create a new component first.
             HTML);
+            throw new Exception('Component not found');
         return false;
 
     }
 
-    $package = $options->getPackageJson($name);
+    $package = $components_core_options ->getPackageJson($name);
     
     if ( file_exists($package) ) {
         $package = json_decode(file_get_contents($package));

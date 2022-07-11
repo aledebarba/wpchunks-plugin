@@ -27,6 +27,7 @@ class Components_Core_Options {
     }
 
     public function setComponent($name, $path) { $this->components[$name] = $path; } 
+    
     public function getComponent($name) {
         if ( isset( $this->components[$name] ) ) {
             return $this->components[$name];
