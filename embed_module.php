@@ -21,7 +21,6 @@ require_once __DIR__ . '/classes/component-element.php';
 require_once __DIR__ . '/classes/component.php';
 require_once __DIR__ . '/functions/auxiliary.php';
 require_once __DIR__ . '/functions/sass-compiler.php';
-// require_once(__DIR__ . '/classes/module-admin-menu.php'); // If you want a module's admin menu page
 
 // create module with default values
 $defaultFolder = "components";
