@@ -94,39 +94,7 @@ class Component {
         }
     }
     
-    public static function P($name, ...$params) { // sugar for php
-        Component::php($name, $params);
-    }
-
-    // Javascript components -------------------------------------------------
-    public static function JS($name, $deps = [], $infooter = true) {
-        global $components_core_options;
-        $path           = $components_core_options->getBuildPath($name, "index.js");
-        $url            = $components_core_options->getBuildUrl ($name, "index.js");
-        $handle         = "wpchunk-".$name; // ex. wpchunk-hello-world
-        $globalVars     = str_replace("-", "_", $handle); // ex: wpchunk_hello_world 
-        $componentPath  = $path;
-        $stylePath      = $components_core_options->getBuildPath($name, "index.css");
-        $styleUrl       = $components_core_options->getBuildUrl($name, "index.css");
-        $styleHandle    = "wpchunk-$name-styles";
-        $ver            = uniqid();
-        $deps           = [];
-        $infooter       = true;
-        $instance       = $components_core_options->componentStore[$name]['instance'];
-        
-        if ( file_exists($path) ) {
-            //output entry point html element
-            echo "<div class='$name' wpchunk-$name='true'></div>";
-            //register script
-            add_action("wp_enqueue_scripts", function() use ($handle, $url, $deps, $ver, $infooter, $stylePath, $styleHandle, $instance) {
-                wp_register_script( $handle, $url, $deps, $ver, $infooter );
-                wp_enqueue_script( $handle );
-            }, 100);
-            do_action("wp_enqueue_scripts");
-        } else {
-            Component::error("Could not find Javascript component: $name");
-        }
-    }
+    
 
     public static function javascript($name, $params = [], $deps = [], $infooter = true) {
         global $components_core_options;
@@ -244,6 +212,41 @@ class Component {
             Component::error("Could not find React component: $name");
         }
     }
+
+    public static function P($name, ...$params) { // sugar for php
+        Component::php($name, $params);
+    }
+
+    // Javascript components -------------------------------------------------
+    public static function JS($name, $deps = [], $infooter = true) {
+        global $components_core_options;
+        $path           = $components_core_options->getBuildPath($name, "index.js");
+        $url            = $components_core_options->getBuildUrl ($name, "index.js");
+        $handle         = "wpchunk-".$name; // ex. wpchunk-hello-world
+        $globalVars     = str_replace("-", "_", $handle); // ex: wpchunk_hello_world 
+        $componentPath  = $path;
+        $stylePath      = $components_core_options->getBuildPath($name, "index.css");
+        $styleUrl       = $components_core_options->getBuildUrl($name, "index.css");
+        $styleHandle    = "wpchunk-$name-styles";
+        $ver            = uniqid();
+        $deps           = [];
+        $infooter       = true;
+        $instance       = $components_core_options->componentStore[$name]['instance'];
+        
+        if ( file_exists($path) ) {
+            //output entry point html element
+            echo "<div class='$name' wpchunk-$name='true'></div>";
+            //register script
+            add_action("wp_enqueue_scripts", function() use ($handle, $url, $deps, $ver, $infooter, $stylePath, $styleHandle, $instance) {
+                wp_register_script( $handle, $url, $deps, $ver, $infooter );
+                wp_enqueue_script( $handle );
+            }, 100);
+            do_action("wp_enqueue_scripts");
+        } else {
+            Component::error("Could not find Javascript component: $name");
+        }
+    }
+
     //
     public static function J($name, $deps = [], $infooter = true) { // sugar for JS 
         Component::JS($name, $deps, $infooter);

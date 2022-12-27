@@ -155,8 +155,6 @@ class Components_Core_Options {
                     // eval function
                     eval($fnBody);
                 }
-
-                
             }
         }
     }
@@ -230,7 +228,6 @@ class Import {
         }
         return substr(strrchr('/', $name), 1);
     }
-
 }
 class customFunctions {
     private static $store = [];
